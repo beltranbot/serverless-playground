@@ -12,7 +12,7 @@ plugins:
 custom:
   s3Sync:
     - bucketName: slstestbucket-20220210
-      localDir: .serverless
+      localDir: uploadData
 
 functions:
   hello:

@@ -5,9 +5,9 @@ services:
     restart: always
     build:
       context: .
-    ports:
-      - "3000:3000"
-      - "9229:9229"
+    # ports:
+    #   - "3000:3000"
+    #   - "9229:9229"
     command: tail -f /dev/null
     volumes:
       - ./:/app

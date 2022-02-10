@@ -6,6 +6,21 @@ provider:
   name: aws
   runtime: nodejs14.x
 
+plugins:
+  - serverless-s3-sync
+
+custom:
+  s3Sync:
+    - bucketName: slstestbucket-20220210
+      localDir: .serverless
+
 functions:
   hello:
     handler: handler.hello
+
+resources:
+  Resources:
+    DemoBucketUpload:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: slstestbucket-20220210

@@ -15,8 +15,13 @@ custom:
       localDir: uploadData
 
 functions:
-  hello:
-    handler: handler.hello
+  getUser:
+    handler: lambdas/getUser.handler
+    events:
+      - http:
+          path: get-user/{ID} # these have to be at 2 indentation
+          method: GET
+          cors: true
 
 resources:
   Resources:

@@ -5,6 +5,15 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: nodejs14.x
+  environment:
+    tableName: ${self:custom.tableName}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+              - dynamodb:*
+          Resource: '*'
 
 plugins:
   - serverless-s3-sync
@@ -21,10 +30,18 @@ custom:
 
 functions:
   getUser:
-    handler: lambdas/getUser.handler
+    handler: lambdas/endpoints/getUser.handler
     events:
       - http:
           path: get-user/{ID} # these have to be at 2 indentation
+          method: GET
+          cors: true
+
+  getPlayerScore:
+    handler: lambdas/endpoints/getPlayerScore.handler
+    events:
+      - http:
+          path: get-player-score/{ID} # these have to be at 2 indentation
           method: GET
           cors: true
 

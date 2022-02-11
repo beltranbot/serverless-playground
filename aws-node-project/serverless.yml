@@ -7,25 +7,28 @@ provider:
   runtime: nodejs14.x
   environment:
     tableName: ${self:custom.tableName}
+    bucketName: ${self:custom.bucketName}
   iam:
     role:
       statements:
         - Effect: Allow
           Action:
               - dynamodb:*
+              - s3:*
           Resource: '*'
 
 plugins:
   - serverless-s3-sync
-  - serverless-webpack
+  # - serverless-webpack
 
 package:
   individually: true # tell webpack that you want the lambdas to be packed individually
 
 custom:
   tableName: player-points
+  bucketName: slstestbucket-20220210
   s3Sync:
-    - bucketName: slstestbucket-20220210
+    - bucketName: ${self:custom.bucketName}
       localDir: uploadData
 
 functions:
@@ -53,12 +56,28 @@ functions:
           method: POST
           cors: true
 
+  getFile:
+    handler: lambdas/endpoints/getFile.handler
+    events:
+      - http:
+          path: get-file/{fileName} # these have to be at 2 indentation
+          method: GET
+          cors: true
+
+  postFile:
+    handler: lambdas/endpoints/postFile.handler
+    events:
+      - http:
+          path: post-file/{fileName} # these have to be at 2 indentation
+          method: POST
+          cors: true
+
 resources:
   Resources:
     DemoBucketUpload:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: slstestbucket-20220210
+        BucketName: ${self:custom.bucketName}
 
     MyDynamoDBTable:
       Type: AWS::DynamoDB::Table

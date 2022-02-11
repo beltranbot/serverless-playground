@@ -13,11 +13,26 @@ const Dynamo = {
       .promise() // turn the response into a promise
 
     if (!data || !data.Item) {
-      throw Error('There was an error fetching the data for ID of ${ID} from ${TableName}')
+      throw Error(`There was an error fetching the data for ID of ${ID} from ${TableName}`)
     }
     console.log(data)
 
     return data.Item
+  },
+
+  async write(data, TableName) {
+    if (!data.ID) {
+      throw Error('No ID on the data')
+    }
+    const params = {
+      TableName,
+      Item: data
+    }
+    const res = await documentClient.put(params).promise()
+    if (!res) {
+      throw Error(`There was an error inserting ID of ${data.ID} in table ${TableName}`)
+    }
+    return data
   }
 }
 

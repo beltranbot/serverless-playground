@@ -45,6 +45,14 @@ functions:
           method: GET
           cors: true
 
+  postPlayerScore:
+    handler: lambdas/endpoints/postPlayerScore.handler
+    events:
+      - http:
+          path: post-player-score/{ID} # these have to be at 2 indentation
+          method: POST
+          cors: true
+
 resources:
   Resources:
     DemoBucketUpload:

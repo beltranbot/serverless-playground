@@ -8,6 +8,10 @@ provider:
 
 plugins:
   - serverless-s3-sync
+  - serverless-webpack
+
+package:
+  individually: true # tell webpack that you want the lambdas to be packed individually
 
 custom:
   s3Sync:
